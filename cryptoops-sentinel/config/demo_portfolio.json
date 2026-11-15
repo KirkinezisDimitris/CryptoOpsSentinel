@@ -1,0 +1,14 @@
+{
+  "label": "Hypothetical portfolio — example holdings, NOT actual exchange balances",
+  "currency": "USD",
+  "positions": [
+    {"symbol": "BTC", "venue": "Kraken", "venue_type": "CEX", "quantity": "0.04", "unit_cost_usd": "70000"},
+    {"symbol": "ETH", "venue": "Coinbase", "venue_type": "CEX", "quantity": "0.75", "unit_cost_usd": "3200"},
+    {"symbol": "SOL", "venue": "Uniswap", "venue_type": "DEX", "quantity": "6", "unit_cost_usd": "160"}
+  ],
+  "risk_policy": {
+    "max_single_asset_weight_pct": 55,
+    "max_single_venue_weight_pct": 75,
+    "unrealized_loss_alert_pct": -20
+  }
+}

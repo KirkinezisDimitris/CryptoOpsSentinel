@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: cryptoops
+      POSTGRES_USER: cryptoops
+      POSTGRES_PASSWORD: local_dev_only
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cryptoops -d cryptoops"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg://cryptoops:local_dev_only@postgres:5432/cryptoops
+      MAX_SNAPSHOT_AGE_SECONDS: 900
+      ENABLE_KRAKEN_WS: "1"
+    command: uvicorn cryptoops.api:app --host 0.0.0.0 --port 8000
+    # Edit synthetic holdings locally without rebuilding the image.
+    volumes:
+      - ./config:/app/config:ro
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  dashboard:
+    build: .
+    environment:
+      API_URL: http://api:8000
+      PUBLIC_API_URL: http://localhost:8000
+      PYTHONPATH: /app
+    command: streamlit run dashboard/app.py --server.address=0.0.0.0 --server.port=8501 --server.headless=true
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
