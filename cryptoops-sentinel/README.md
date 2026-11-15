@@ -1,4 +1,4 @@
-CryptoOps Sentinel
+CryptoOps Sentinel https://cryptoopssentinel-wfepjitasmho3ayyr7magj.streamlit.app/
 Cryptocurrency market intelligence, paper-portfolio analytics, and risk monitoring.
 
 A read-only analytics platform built to explore how trading operations teams monitor digital-asset markets, assess hypothetical portfolio exposure, and investigate market events. The project combines live public market data with transparent financial calculations and a browser-based dashboard.
